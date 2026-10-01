@@ -1,0 +1,54 @@
+name: CI/CD
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+
+  lint-python:
+    name: Lint Python Files
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Python Linter
+        run: |
+          python -m pip install --upgrade pip
+          pip install flake8
+
+      - name: Lint Python Files
+        run: |
+          flake8 server --exclude=server/venv,server/db.sqlite3 --count --statistics
+
+  lint-javascript:
+    name: Lint JavaScript Files
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install JavaScript Linter
+        run: |
+          npm install --global eslint
+
+      - name: Lint JavaScript Files
+        run: |
+          eslint server/frontend/src --no-error-on-unmatched-pattern

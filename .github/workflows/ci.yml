@@ -47,8 +47,8 @@ jobs:
 
       - name: Install JavaScript Linter
         run: |
-          npm install --global eslint
+          npm install
 
       - name: Lint JavaScript Files
         run: |
-          eslint server/frontend/src --no-error-on-unmatched-pattern
+          npx eslint server/frontend/src

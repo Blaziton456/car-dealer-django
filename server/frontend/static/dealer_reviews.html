@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dealer Details and Reviews</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: #f5f5f5;
+        }
+
+        header {
+            background: #1f2937;
+            color: white;
+            padding: 20px 40px;
+        }
+
+        header h1 {
+            margin: 0;
+        }
+
+        nav {
+            margin-top: 10px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-right: 25px;
+        }
+
+        .user-info {
+            margin-top: 15px;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1000px;
+            margin: 30px auto;
+        }
+
+        .dealer-details,
+        .review-card {
+            background: white;
+            padding: 25px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .dealer-details h2,
+        .review-card h3 {
+            margin-top: 0;
+        }
+
+        .dealer-details p,
+        .review-card p {
+            margin: 10px 0;
+        }
+
+        .reviews-title {
+            margin-top: 30px;
+        }
+
+        .review-card {
+            border-left: 5px solid #1f2937;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+
+    <h1>Car Dealer</h1>
+
+    <nav>
+        <a href="/">Home</a>
+        <a href="/static/About.html">About Us</a>
+        <a href="/static/Contact.html">Contact Us</a>
+    </nav>
+
+    {% if user.is_authenticated %}
+        <div class="user-info">
+            Logged in as: <strong>{{ user.username }}</strong>
+        </div>
+    {% endif %}
+
+</header>
+
+<div class="container">
+
+    <div class="dealer-details">
+
+        <h2>{{ dealer.full_name }}</h2>
+
+        <p>
+            <strong>Short Name:</strong>
+            {{ dealer.short_name }}
+        </p>
+
+        <p>
+            <strong>State:</strong>
+            {{ dealer.state }}
+        </p>
+
+        <p>
+            <strong>Address:</strong>
+            {{ dealer.address }}
+        </p>
+
+        <p>
+            <strong>ZIP:</strong>
+            {{ dealer.zip }}
+        </p>
+
+        <p>
+            <strong>Latitude:</strong>
+            {{ dealer.latitude }}
+        </p>
+
+        <p>
+            <strong>Longitude:</strong>
+            {{ dealer.longitude }}
+        </p>
+
+    </div>
+
+    <h2 class="reviews-title">
+        Dealer Reviews
+    </h2>
+
+    {% for review in reviews %}
+
+        <div class="review-card">
+
+            <h3>{{ review.name }}</h3>
+
+            <p>
+                <strong>Review:</strong>
+                {{ review.review }}
+            </p>
+
+            <p>
+                <strong>Purchase:</strong>
+                {% if review.purchase %}
+                    Yes
+                {% else %}
+                    No
+                {% endif %}
+            </p>
+
+            <p>
+                <strong>Purchase Date:</strong>
+                {{ review.purchase_date }}
+            </p>
+
+            <p>
+                <strong>Car:</strong>
+                {{ review.car_year }}
+                {{ review.car_make }}
+                {{ review.car_model }}
+            </p>
+
+            <p>
+                <strong>Sentiment:</strong>
+                {{ review.sentiment }}
+            </p>
+
+        </div>
+
+    {% empty %}
+
+        <div class="review-card">
+            <p>No reviews available for this dealer.</p>
+        </div>
+
+    {% endfor %}
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dealers by State</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: #f5f5f5;
+        }
+
+        header {
+            background: #1f2937;
+            color: white;
+            padding: 20px 40px;
+        }
+
+        header h1 {
+            margin: 0;
+        }
+
+        nav {
+            margin-top: 10px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-right: 25px;
+        }
+
+        .user-info {
+            margin-top: 15px;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1100px;
+            margin: 30px auto;
+        }
+
+        .container h2 {
+            margin-bottom: 20px;
+        }
+
+        .dealers {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .dealer-card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .dealer-card h3 {
+            margin-top: 0;
+        }
+
+        .dealer-card p {
+            margin: 8px 0;
+        }
+
+        .review-button {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 8px 14px;
+            background: #1f2937;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+
+    <h1>Car Dealer</h1>
+
+    <nav>
+        <a href="/">Home</a>
+        <a href="/static/About.html">About Us</a>
+        <a href="/static/Contact.html">Contact Us</a>
+    </nav>
+
+    {% if user.is_authenticated %}
+        <div class="user-info">
+            Logged in as: <strong>{{ user.username }}</strong>
+        </div>
+    {% endif %}
+
+</header>
+
+<div class="container">
+
+    <h2>Dealerships in {{ state }}</h2>
+
+    <div class="dealers">
+
+        {% for dealer in dealers %}
+
+            <div class="dealer-card">
+
+                <h3>{{ dealer.full_name }}</h3>
+
+                <p>
+                    <strong>Location:</strong>
+                    {{ dealer.state }}
+                </p>
+
+                <p>
+                    <strong>Address:</strong>
+                    {{ dealer.address }}
+                </p>
+
+                <p>
+                    <strong>ZIP:</strong>
+                    {{ dealer.zip }}
+                </p>
+
+                {% if user.is_authenticated %}
+                    <a
+                        class="review-button"
+                        href="/dealer/{{ dealer.id }}/review"
+                    >
+                        Review Dealer
+                    </a>
+                {% endif %}
+
+            </div>
+
+        {% empty %}
+
+            <p>No dealerships found for this state.</p>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+</body>
+</html>
